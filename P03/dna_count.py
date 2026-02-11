@@ -1,7 +1,7 @@
 #another way
 def count_bases(s):
     bases = {"A": 0, "G": 0, "C": 0, "T": 0}
-    for base in seq:
+    for base in s:
         if base in bases:
             bases[base] += 1
     return bases
