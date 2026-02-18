@@ -1,6 +1,6 @@
 from Seq0 import seq_read_fasta
 
-u5 = "sequences/Amphiprion_ocellaris_U5_sequence.fa"
+u5 = "Amphiprion_ocellaris_U5_sequence.fa"
 sequence = seq_read_fasta(u5)
 
 print("DNA file:", u5)
