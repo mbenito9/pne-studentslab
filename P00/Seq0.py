@@ -32,5 +32,13 @@ def seq_reverse(seq, n):
     cut = seq[:n]
     return cut[::-1]
 
+def seq_complement(seq):
+    bases = {"A": "T", "T": "A", "C": "G", "G": "C"}
+    new_seq = ""
+    for i in seq:
+        complement = bases[i]
+        new_seq += complement
+    return new_seq
+
 if __name__== "__main__":
     seq_ping()
