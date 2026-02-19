@@ -27,6 +27,8 @@ if __name__ == "__main__":
         for base, number in dict_bases.items():
             lst.append(number)
         most_freq, less_freq = limit_val(lst)
+        total_bases = []
         for base in dict_bases.keys():
             if dict_bases[base] == most_freq:
-                print(f"Gene {gene}: Most frequent base: {base}")
+                total_bases.append(base)
+        print(f"Gene {gene}: Most frequent base: {" and ".join(total_bases)}")
