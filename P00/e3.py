@@ -11,4 +11,4 @@ print("-----| Exercise 3 |------")
 for gene, filename in dct.items():
     cleared = seq_read_fasta(filename)
     length = seq_len(cleared)
-    print(f"Gene {gene} --> {length}")
+    print(f"Gene {gene} --> Length: {length}")

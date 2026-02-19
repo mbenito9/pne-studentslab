@@ -7,6 +7,7 @@ ada = "Homo_sapiens_ADA_ch20.fa"
 
 dct = {"U5": u5, "ADA": ada, "FRAT1": frat1, "FXN": fxn}
 
+print("-----| Exercise 5 |------")
 for gene, filename in dct.items():
     cleared = seq_read_fasta(filename)
     dict_bases = seq_count(cleared)
