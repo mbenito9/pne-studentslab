@@ -39,6 +39,3 @@ def seq_complement(seq):
         complement = bases[i]
         new_seq += complement
     return new_seq
-
-if __name__== "__main__":
-    seq_ping()
