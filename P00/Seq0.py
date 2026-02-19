@@ -29,7 +29,8 @@ def seq_count(seq):
     return dct
 
 def seq_reverse(seq, n):
-
+    cut = seq[:n]
+    return cut[::-1]
 
 if __name__== "__main__":
     seq_ping()
