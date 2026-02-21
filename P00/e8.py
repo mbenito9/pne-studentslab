@@ -23,10 +23,10 @@ if __name__ == "__main__":
     for gene, filename in dct.items():
         cleared = seq_read_fasta(filename)
         dict_bases = seq_count(cleared)
-        lst = []
+        freq_bases = []
         for base, number in dict_bases.items():
-            lst.append(number)
-        most_freq, less_freq = limit_val(lst)
+            freq_bases.append(number)
+        most_freq, less_freq = limit_val(freq_bases)
         total_bases = []
         for base in dict_bases.keys():
             if dict_bases[base] == most_freq:
