@@ -27,3 +27,13 @@ class Seq:
         else:
             result = len(self.bases)
         return result
+    def count_base(self,base):
+        if self.bases != "ERROR" and self.bases != "NULL":
+            count = 0
+            for i in self.bases:
+                if i == base:
+                    count += 1
+            c = count
+        else:
+            c = 0
+        return c
