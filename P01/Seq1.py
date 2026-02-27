@@ -20,4 +20,10 @@ class Seq:
     def __str__(self):
         return self.bases
     def len(self):
-        return len(self.bases)
+        if self.bases == "ERROR":
+            result = 0
+        elif self.bases == "NULL":
+            result = 0
+        else:
+            result = len(self.bases)
+        return result
