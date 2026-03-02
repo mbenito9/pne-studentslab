@@ -9,7 +9,7 @@ l = [s1, s2, s3]
 for sequence in l:
     i = l.index(sequence)
     length = sequence.len()
-    print(f"Sequence {i}: (Length: {length}) {sequence}", end="\n")
+    print(f"Sequence {i}: (Length: {length}) {sequence}")
     dct = sequence.count()
-    print(" Bases:", dct, end="\n")
+    print(" Bases:", dct)
     print(" Reverse:", sequence.reverse())
