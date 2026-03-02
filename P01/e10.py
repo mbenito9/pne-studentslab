@@ -10,6 +10,8 @@ def limit_val(lst):
             min_v = i
     return max_v, min_v
 
+print("-----| Practice 1, Exercise 10 |------")
+
 genes = ["U5", "ADA", "FRAT1", "FXN", "RNU6_269P"]
 
 for gene in genes:
