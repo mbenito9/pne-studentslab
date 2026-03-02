@@ -16,6 +16,6 @@ for sequence in l:
     for base in bases:
         c += 1
         if c != len(bases):
-            print(f"{base}: {sequence.count_base(base)}", end=",  ")
+            print(f"    {base}: {sequence.count_base(base)}", end=",")
         else:
-            print(f"{base}: {sequence.count_base(base)}", end="\n")
+            print(f"    {base}: {sequence.count_base(base)}", end="\n")
