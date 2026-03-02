@@ -11,4 +11,4 @@ for sequence in l:
     length = sequence.len()
     print(f"Sequence {i}: (Length: {length}) {sequence}", end="\n")
     dct = sequence.count()
-    print("Bases:", dct)
+    print(" Bases:", dct)
