@@ -1,4 +1,5 @@
 from pathlib import Path
 
 class Client:
-    pass
+    def __init__(self, IP, PORT):
+        pass
