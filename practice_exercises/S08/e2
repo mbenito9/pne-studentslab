@@ -1,0 +1,50 @@
+"212.128.255.76, Self,0.049ms, 0.044ms,
+64 bytes from 212.128.255.76: icmp_seq=2 ttl=64 time=0.044 ms
+64 bytes from 212.128.255.76: icmp_seq=3 ttl=64 time=0.057 ms
+64 bytes from 212.128.255.76: icmp_seq=4 ttl=64 time=0.053 ms
+64 bytes from 212.128.255.76: icmp_seq=5 ttl=64 time=0.060 ms
+64 bytes from 212.128.255.76: icmp_seq=6 ttl=64 time=0.055 ms
+64 bytes from 212.128.255.76: icmp_seq=7 ttl=64 time=0.058 ms
+64 bytes from 212.128.255.76: icmp_seq=8 ttl=64 time=0.061 ms
+64 bytes from 212.128.255.76: icmp_seq=9 ttl=64 time=0.055 ms"
+
+"212.128.255.73, f-l3208-pc01, 64 bytes from 212.128.255.73: icmp_seq=1 ttl=64 time=0.242 ms
+64 bytes from 212.128.255.73: icmp_seq=2 ttl=64 time=0.251 ms
+64 bytes from 212.128.255.73: icmp_seq=3 ttl=64 time=0.284 ms
+64 bytes from 212.128.255.73: icmp_seq=4 ttl=64 time=0.375 ms
+64 bytes from 212.128.255.73: icmp_seq=5 ttl=64 time=0.276 ms
+64 bytes from 212.128.255.73: icmp_seq=6 ttl=64 time=0.242 ms
+64 bytes from 212.128.255.73: icmp_seq=7 ttl=64 time=0.318 ms"
+"10.191.117.176, mobile
+"www.urjc.es, 64 bytes from www.urjc.es (212.128.240.50): icmp_seq=1 ttl=253 time=1.82 ms
+64 bytes from www.urjc.es (212.128.240.50): icmp_seq=2 ttl=253 time=1.67 ms
+64 bytes from www.urjc.es (212.128.240.50): icmp_seq=3 ttl=253 time=1.58 ms
+64 bytes from www.urjc.es (212.128.240.50): icmp_seq=4 ttl=253 time=1.63 ms
+64 bytes from www.urjc.es (212.128.240.50): icmp_seq=5 ttl=253 time=1.53 ms
+64 bytes from www.urjc.es (212.128.240.50): icmp_seq=6 ttl=253 time=1.62 ms
+64 bytes from www.urjc.es (212.128.240.50): icmp_seq=7 ttl=253 time=1.67 ms
+64 bytes from www.urjc.es (212.128.240.50): icmp_seq=8 ttl=253 time=2.01 ms
+64 bytes from www.urjc.es (212.128.240.50): icmp_seq=9 ttl=253 time=1.67 ms"
+
+"github.com, 64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=1 ttl=53 time=35.2 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=2 ttl=53 time=35.3 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=3 ttl=53 time=35.0 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=4 ttl=53 time=35.1 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=5 ttl=53 time=35.3 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=6 ttl=53 time=35.0 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=7 ttl=53 time=35.1 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=8 ttl=53 time=35.3 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=9 ttl=53 time=35.2 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=10 ttl=53 time=35.1 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=11 ttl=53 time=35.1 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=12 ttl=53 time=35.2 ms
+64 bytes from lb-140-82-121-4-fra.github.com (140.82.121.4): icmp_seq=13 ttl=53 time=35.2 ms"
+
+"wikipedia.org, 64 bytes from text-lb.drmrs.wikimedia.org (185.15.58.224): icmp_seq=1 ttl=54 time=16.6 ms
+64 bytes from text-lb.drmrs.wikimedia.org (185.15.58.224): icmp_seq=2 ttl=54 time=16.6 ms
+64 bytes from text-lb.drmrs.wikimedia.org (185.15.58.224): icmp_seq=3 ttl=54 time=16.6 ms
+64 bytes from text-lb.drmrs.wikimedia.org (185.15.58.224): icmp_seq=4 ttl=54 time=16.8 ms
+64 bytes from text-lb.drmrs.wikimedia.org (185.15.58.224): icmp_seq=5 ttl=54 time=16.7 ms
+64 bytes from text-lb.drmrs.wikimedia.org (185.15.58.224): icmp_seq=6 ttl=54 time=16.7 ms
+^C"
+"
