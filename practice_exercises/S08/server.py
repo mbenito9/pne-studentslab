@@ -2,13 +2,44 @@ import socket
 
 PORT = 8080
 IP = "212.128.255.76"
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((IP, PORT))
+import socket
 
-s.send(str.encode("HELLO FROM THE CLIENT!!!"))
+MAX_OPEN_REQUESTS = 5
 
-msg = s.recv(2048)
-print("MESSAGE FROM THE SERVER:\n")
-print(msg.decode("utf-8"))
+# Counting the number of connections
+number_con = 0
 
-s.close()
+# create an INET, STREAMing socket
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    serversocket.bind((IP, PORT))
+    serversocket.listen(MAX_OPEN_REQUESTS)
+    flag = True
+    while flag:
+
+            # accept connections from outside
+            print("Waiting for connections at {}, {} ".format(IP, PORT))
+            (clientsocket, address) = serversocket.accept() #bind, listen, and accept are exclusive for server
+
+            # Another connection!e
+            number_con += 1
+            # Print the connection number
+            print("CONNECTION: {}. From the IP: {}".format(number_con, address))
+            # Read the message from the client, if any
+            msg = clientsocket.recv(2048).decode("utf-8")
+            print("Message from client: {}".format(msg))
+
+            # Send the message
+            message = "Hello from the teacher's server\n"
+            send_bytes = str.encode(message)
+            # We must write bytes, not a string
+            clientsocket.send(send_bytes)
+            clientsocket.close()
+
+
+except socket.error:
+    print("Problems using ip {} port {}. Is the IP correct? Do you have port permission?".format(IP, PORT))
+
+except KeyboardInterrupt:
+    print("Server stopped by the user")
+    serversocket.close()

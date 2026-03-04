@@ -72,5 +72,3 @@ class Seq:
             string = read[index::]
             final = string.replace("\n", "")
             self.bases = final
-
-

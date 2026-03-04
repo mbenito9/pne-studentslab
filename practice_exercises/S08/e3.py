@@ -1,8 +1,8 @@
 import socket
 
 # SERVER IP, PORT
-PORT = 8081
-IP = "212.128.255.64" # depends on the computer the server is running
+PORT = 8080
+IP = "212.128.255.76" # depends on the computer the server is running
 
 flag = True
 while flag:
