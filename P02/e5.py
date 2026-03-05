@@ -9,8 +9,10 @@ c = Client(ip, port)
 gene = "FRAT1"
 s = Seq()
 s.read_fasta(gene + ".txt")
+
 send_frat = c.talk("Sending FRAT1 gene to the server, in fragments of 10 bases...")
 print(f"Gene FRAT1: {s}")
+
 frag = ""
 count = 0
 for i in str(s):
@@ -25,4 +27,3 @@ for i in str(s):
         frag += i
     if count == 5:
         break
-
