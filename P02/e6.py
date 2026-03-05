@@ -3,7 +3,7 @@ from Seq1 import Seq
 
 print("-----| Practice 2, Exercise 6 |------")
 
-ip = "212.128.254.240"
+ip = "212.128.255.76"
 c1 = Client(ip, 8080)
 c2 = Client(ip, 8081)
 gene = "FRAT1"
