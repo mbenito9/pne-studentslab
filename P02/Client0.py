@@ -1,4 +1,3 @@
-from pathlib import Path
 import socket
 
 class Client:
