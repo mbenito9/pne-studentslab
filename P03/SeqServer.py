@@ -35,21 +35,20 @@ while True:
             print(seq)
         elif comd == "INFO":
             seq = Seq(r[1])
-            s = f"Sequence: {str(seq)}"
+            s = f"Sequence: {str(seq)}\n"
             print(s)
-            client_s.send((s + "\n").encode())
 
             total = seq.len()
-            l = f"Total length: {total}"
+            l = s + f"Total length: {total}\n"
             print(l)
-            client_s.send((l + "\n").encode())
 
             dict_bases = seq.count()
             for base, count in dict_bases.items():
                 pct = round((count / total) * 100, 1)
-                ans = f"{base}: {count} ({pct}%)"
+                ans = f"{base}: {count} ({pct}%)\n"
                 print(ans)
-                client_s.send((ans + "\n").encode())
+                l += ans
+            client_s.send(l.encode())
         elif comd == "COMP":
             seq = Seq(r[1])
             comp = seq.complement() + "\n"
