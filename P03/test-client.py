@@ -15,6 +15,6 @@ for i in commnds:
         seq = client.talk(i + " 0")
         print(seq)
     elif i == "INFO":
-        ans = client.talk(i + f" {seq}")
+        ans = client.talk(i + " " + seq)
         print(ans)
 
