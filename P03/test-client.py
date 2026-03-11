@@ -11,4 +11,10 @@ for i in commnds:
     if i == "PING":
         ans = client.talk(i)
         print(ans)
+    elif i == "GET":
+        seq = client.talk(i + " 0")
+        print(seq)
+    elif i == "INFO":
+        ans = client.talk(i + f" {seq}")
+        print(ans)
 
