@@ -36,8 +36,6 @@ while True:
         elif comd == "INFO":
             seq = Seq(r[1])
             s = f"Sequence: {str(seq)}\n"
-            print(s)
-
             total = seq.len()
             l = s + f"Total length: {total}\n"
             print(l)
