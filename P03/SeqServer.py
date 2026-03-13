@@ -10,7 +10,7 @@ ls.bind((ip,port))
 ls.listen()
 print("The server is configured")
 
-genes = ["AGAGAG", "ATCATATAGAG", "CCCCTTTTG", "CCCCCCGGGA"]
+genes = ["AGAGAG", "ATCATATAGAG", "CCCCTTTTG", "CCCCCCGGGA", "ATATCGCATCTCAGCTTC"]
 
 while True:
     print("Waiting for clients to connect")
