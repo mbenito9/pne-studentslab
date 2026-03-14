@@ -1,5 +1,6 @@
 import socket
 from Seq1 import Seq
+import termcolor
 ip = "127.0.0.1"
 port = 8080
 
@@ -26,7 +27,7 @@ while True:
         real_msg = msg_raw.decode()
         r = real_msg.strip().split(" ",1)
         comd = r[0]
-        print(comd)
+        termcolor.cprint(comd, "yellow")
         if comd == "PING":
             msg = "OK!\n"
             client_s.send(msg.encode())
