@@ -1,13 +1,12 @@
-import socket
 from Client0 import Client
 
 ip = "127.0.0.1"
 port = 8080
 
 client = Client(ip,port)
-commnds = ["PING", "GET", "INFO", "COMP", "REV", "GENE"]
+commands = ["PING", "GET", "INFO", "COMP", "REV", "GENE"]
 genes = ["U5", "ADA", "FRAT1", "FXN", "RNU6_269P"]
-for i in commnds:
+for i in commands:
     print(f" * TESTING {i}...")
     if i == "PING":
         ans = client.talk(i)
@@ -21,10 +20,13 @@ for i in commnds:
                 get0 = seq
     elif i == "INFO" or i == "COMP" or i == "REV":
         ans = client.talk(i + " " + get0)
-        print(ans)
+        if i != "INFO":
+            print(i + " " + ans)
+        else:
+            print(ans)
     elif i == "GENE":
         for name in genes:
             gene_com = i + " " + name
             server_gen = client.talk(gene_com)
             print(gene_com)
-            print(server_gen)
+            print(server_gen.strip())

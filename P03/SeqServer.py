@@ -10,7 +10,7 @@ ls.bind((ip,port))
 ls.listen()
 print("The server is configured")
 
-genes = ["AGAGAG", "ATCATATAGAG", "CCCCTTTTG", "CCCCCCGGGA", "ATATCGCATCTCAGCTTC"]
+genes = ["TTTGATCATAGTACTAG", "GTCATATAGAG", "CCCCTTTTG", "CCCCCCGGGA", "ATATCGCATCTCAGCTTC"]
 
 while True:
     print("Waiting for clients to connect")
@@ -28,23 +28,25 @@ while True:
         comd = r[0]
         print(comd)
         if comd == "PING":
-            client_s.send("OK!\n".encode())
+            msg = "OK!\n"
+            client_s.send(msg.encode())
+            print(msg)
         elif comd == "GET":
             seq = genes[int(r[1])]
             client_s.send((seq + "\n").encode())
-            print(seq)
+            print(seq + "\n")
         elif comd == "INFO":
             seq = Seq(r[1])
             s = f"Sequence: {str(seq)}\n"
             total = seq.len()
             l = s + f"Total length: {total}\n"
-            print(l)
+            print(l.strip())
 
             dict_bases = seq.count()
             for base, count in dict_bases.items():
                 pct = round((count / total) * 100, 1)
                 ans = f"{base}: {count} ({pct}%)\n"
-                print(ans)
+                print(ans.strip())
                 l += ans
             client_s.send(l.encode())
         elif comd == "COMP":
@@ -62,5 +64,7 @@ while True:
             file_name = gene_name + ".txt"
             seq = Seq()
             seq.read_fasta(file_name)
-            print(str(seq) + "\n")
-            client_s.send((str(seq) + "\n").encode())
+            send_g = str(seq) + "\n"
+            print(send_g)
+            client_s.send(send_g.encode())
+        client_s.close()
