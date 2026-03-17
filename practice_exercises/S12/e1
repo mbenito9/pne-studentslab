@@ -1,0 +1,13 @@
+
+
+Which is the request line? "GET /"
+Which is the resource that the client is asking for? (the path)hello HTTP/1.1
+
+Repeat the exercise for this URL: http://127.0.0.1:8080/file.html
+    Which is the request line? "GET /"
+    Which is the resource that the client is asking for? (the path): file.html HTTP/1.1
+
+Repeat the exercise for this URL: http://127.0.0.1:8080/hi/there?name=virus&type=corona
+    Which is the request line? "GET /"
+    Which is the resource that the client is asking for? (the path): hi/there?name=virus&type=corona HTTP/1.1
+What should be the URL that we have to write in the browser for accessing the /dna/u5 resource? http://127.0.0.1:8080/dna/u5
