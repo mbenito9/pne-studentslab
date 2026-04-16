@@ -47,7 +47,7 @@ class Seq:
         if self.bases == "NULL":
             f = "NULL"
         elif self.bases == "ERROR":
-            f = "ERROR"
+            f = "ERROR, INVALID SEQUENCE"
         else:
             f = self.bases[::-1]
         return f
@@ -55,7 +55,7 @@ class Seq:
         if self.bases == "NULL":
             new_seq = "NULL"
         elif self.bases == "ERROR":
-            new_seq = "ERROR"
+            new_seq = "ERROR, INVALID SEQUENCE"
         else:
             bases = {"A": "T", "T": "A", "C": "G", "G": "C"}
             new_seq = ""
@@ -72,3 +72,17 @@ class Seq:
             string = read[index::]
             final = string.replace("\n", "")
             self.bases = final
+    def info(self):
+        if self.bases == "NULL":
+            l = "NULL"
+        elif self.bases == "ERROR":
+            l = "ERROR, INVALID SEQUENCE"
+        else:
+            total = self.len()
+            l = f"Total length: {total}\n"
+            dict_bases = self.count()
+            for base, count in dict_bases.items():
+                pct = round((count / total) * 100, 1)
+                ans = f"{base}: {count} ({pct}%)\n"
+                l += ans
+        return l

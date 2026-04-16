@@ -36,8 +36,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             gene_name = arguments["gene_name"]
             gene_name = gene_name[0]
             seq = Seq()
-            gene = {"gene_name": gene_name, "gene": seq.read_fasta(gene_name + ".txt")}
-            print(seq.read_fasta(gene_name + ".txt"))
+            file_name = gene_name + ".txt"
+            seq.read_fasta(file_name)
+            gene = {"gene_name": gene_name, "gene": seq}
             c = read_html_file("gene.html").render(gene=gene)
         elif path == "/opert":
             seq = arguments["msg"][0]
@@ -46,14 +47,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             if opert == "Rev":
                 result = sequence.reverse()
             elif opert == "Info":
-                total = sequence.len()
-                result = f"Total length: {total}\n"
-
-                dict_bases = sequence.count()
-                for base, count in dict_bases.items():
-                    pct = round((count / total) * 100, 1)
-                    ans = f"{base}: {count} ({pct}%)\n"
-                    result += ans
+                result = sequence.info()
             elif opert == "Comp":
                 result = sequence.complement()
             dct = {"seq": seq, "opert": opert, "result": result}
