@@ -1,0 +1,31 @@
+{
+  "people" : [
+    {
+      "Firstname": "Troll",
+      "Lastname": "Face",
+      "age": 20,
+      "phoneNumber": [
+        {"number": "1111", "type": "home"},
+        {"number": "333", "type" : "office"}
+      ]
+    },
+    {
+      "Firstname": "Alba",
+      "Lastname": "Díaz",
+      "age": 18,
+      "phoneNumber": [
+        {"number": "6878", "type": "home"},
+        {"number": "7587", "type" : "office"}
+      ]
+    },
+    {
+      "Firstname": "Javier",
+      "Lastname": "Medranda",
+      "age": 20,
+      "phoneNumber": [
+        {"number": "8888", "type": "home"},
+        {"number": "1212", "type" : "office"}
+      ]
+    }
+  ]
+}
