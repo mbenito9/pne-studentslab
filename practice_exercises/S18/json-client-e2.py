@@ -1,10 +1,28 @@
+import http.client
+import http.client
 import json
-from pathlib import Path
+import termcolor
 
-port = 8080
-json_str = Path("people-e1.json").read_text()
-dict_info = json.loads(json_str)
-print(dict_info)
+PORT = 8080
+SERVER = 'localhost'
+
+print(f"\nConnecting to server: {SERVER}:{PORT}\n")
+
+conn = http.client.HTTPConnection(SERVER, PORT)
+
+try:
+    conn.request("GET", "/listusers")
+except ConnectionRefusedError:
+    print("ERROR! Cannot connect to the Server")
+    exit()
+
+r1 = conn.getresponse()
+
+print(f"Response received!: {r1.status} {r1.reason}\n")
+
+data1 = r1.read().decode("utf-8")
+
+dict_info = json.loads(data1)
 people_lst = dict_info["people"]
 print(f"Total people in the database: {len(people_lst)}")
 
