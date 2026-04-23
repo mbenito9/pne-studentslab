@@ -1,3 +1,4 @@
+import termcolor
 genes = {"FRAT1": "ENSG00000165879",
          "ADA": "ENSG00000196839",
          "FXN": "ENSG00000165060",
@@ -9,3 +10,11 @@ genes = {"FRAT1": "ENSG00000165879",
          "KDR": "ENSG00000128052",
          "ANK2": "ENSG00000145362"
          }
+print("Dictionary of genes!")
+total = 0
+for key in genes.keys():
+    total += 1
+print(f"There are {total} genes in the dictionary")
+for key, value in genes.items():
+    termcolor.cprint(key, "green", end=" " )
+    print(f"----> {value}")
