@@ -1,4 +1,5 @@
 from pathlib import Path
+import termcolor
 
 class Seq:
     def __init__(self, strbases=None):
@@ -79,10 +80,16 @@ class Seq:
             l = "ERROR, INVALID SEQUENCE"
         else:
             total = self.len()
-            l = f"Total length: {total}\n"
+            l = f"{termcolor.colored("Total length", "green")}: {total}\n"
             dict_bases = self.count()
+            maxi = 0
+            max_base = ""
             for base, count in dict_bases.items():
                 pct = round((count / total) * 100, 1)
+                if maxi < pct:
+                    maxi = pct
+                    max_base = base
                 ans = f"{base}: {count} ({pct}%)\n"
                 l += ans
+            l += f"{termcolor.colored("Most frequent base", "green")}: {max_base}"
         return l
