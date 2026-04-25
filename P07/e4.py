@@ -39,5 +39,6 @@ try:
     seq = Seq(dict_data["seq"])
 
     print(seq.info())
-except ValueError:
+
+except KeyError:
     print("The gene entered is not in the database")

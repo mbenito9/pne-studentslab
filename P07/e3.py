@@ -17,11 +17,10 @@ conn = http.client.HTTPSConnection(server)
 conn.request("GET", endp + params)
 ans = conn.getresponse()
 dict_data = json.loads(ans.read().decode())
-print(f"Response received: {ans.status} {ans.reason}\n")
-termcolor.cprint("Gene:", "green", end=" ")
-print("MIR633")
 
-termcolor.cprint("Description: ", "green", end=" ")
-print(dict_data["desc"])
-termcolor.cprint("Bases:", "green", end=" ")
-print(dict_data["seq"])
+print(f"Response received: {ans.status} {ans.reason}\n")
+print(f"{termcolor.colored("Gene:", "green")} MIR633")
+
+print(f"{termcolor.colored("Description:", "green")} {dict_data["desc"]}")
+
+print(f"{termcolor.colored("Bases:", "green")} {dict_data["seq"]}")
