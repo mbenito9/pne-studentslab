@@ -25,7 +25,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         elif path == "/listSpecies":
             self.send_response(200)
             server = "rest.ensembl.org"
-            endp = f"/info/species"
+            endp = "/info/species"
             params = "?content-type=application/json"
             url = server + endp + params
 
@@ -51,6 +51,28 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     break
             req_species += "</ul>"
             dct = {"limit": limit, "total_species": len(lst_species), "names": req_species}
+            body = read_html_file("basic1.html").render(changes=dct)
+        elif path == "/karyotype":
+            self.send_response(200)
+            server = "rest.ensembl.org"
+            specie = arg["specie"]
+            endp = f"/info/assembly/{specie}"
+            params = "?content-type=application/json"
+            url = server + endp + params
+
+            conn = http.client.HTTPConnection(server)
+            conn.request("GET", endp + params)
+            ans = conn.getresponse()
+
+            dict_data = json.loads(ans.read().decode())
+            karyo_lst = dict_data["karyotype"]
+            total_chr = """
+            <ul>\n
+            """
+            for karyo in karyo_lst:
+                total_chr += f"<li>{karyo}</li>\n"
+            total_chr += "</ul>"
+            dct = {"chroms": total_chr}
             body = read_html_file("basic1.html").render(changes=dct)
         self.send_header("Content-Type", "text/html")
         self.send_header("Content-Length", str(len(body.encode())))
