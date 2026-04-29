@@ -94,7 +94,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     n_chr = arg["chromo"][0]
                     lst_region = dict_data["top_level_region"]
                     for chromosome in lst_region:
-                        if lst_region.index(chromosome) == n_chr:
+                        if chromosome["name"] == n_chr:
                             length = chromosome["length"]
                     dct = {"number": n_chr, "len": length}
                     body = read_html_file("basic3.html").render(changes=dct)
