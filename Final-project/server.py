@@ -5,6 +5,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 import json
 import jinja2 as j
+from Seq1 import Seq
 
 def read_html_file(filename):
     contents = Path("html/" + filename).read_text()
@@ -19,6 +20,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         analyse_path = urlparse(self.path)
         path = analyse_path.path
         arg = parse_qs(analyse_path.query)
+        body = ""
         try:
             self.send_response(200)
             if path == "/":
@@ -45,7 +47,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 <ul>\n
                 """
                 for specie in lst_species:
-                    name = specie["common_name"]
+                    name = specie["display_name"]
                     req_species += f"<li>{name}</li>\n"
                     total += 1
                     if total == limit:
@@ -55,26 +57,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 body = read_html_file("basic1.html").render(changes=dct)
 
             elif path == "/karyotype" or path == "/chromosomeLength":
-                specie = arg["specie"][0]
-                server1 = "rest.ensembl.org"
-                endp1 = "/info/species"
-                params1 = "?content-type=application/json"
-
-                conn = http.client.HTTPConnection(server1)
-                conn.request("GET", endp1 + params1)
-                ans1 = conn.getresponse()
-
-                dict_data = json.loads(ans1.read().decode())
-                lst_species = dict_data["species"]
-                for i in lst_species:
-                    if i["common_name"] == specie:
-                        name_kry = i["name"]
-
-                server2 = "rest.ensembl.org"
-                endp = f"/info/assembly/{name_kry}"
+                specie = arg["species"][0]
+                specie_new = specie.replace(" ", "%20")
+                server = "rest.ensembl.org"
+                endp = f"/info/assembly/{specie_new}"
                 params = "?content-type=application/json"
 
-                conn = http.client.HTTPConnection(server2)
+                conn = http.client.HTTPConnection(server)
                 conn.request("GET", endp + params)
                 ans = conn.getresponse()
 
@@ -98,8 +87,31 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             length = chromosome["length"]
                     dct = {"number": n_chr, "len": length}
                     body = read_html_file("basic3.html").render(changes=dct)
-                elif path == "/geneLookup":
-                    gene_name = arg["gene"][0]
+
+            elif path == "/geneLookup":
+                gene_name = arg["gene"][0]
+                server = "rest.ensembl.org"
+                endp = f"/lookup/symbol/homo_sapiens/{gene_name}"
+                params = "?content-type=application/json"
+
+                conn = http.client.HTTPConnection(server)
+                conn.request("GET", endp + params)
+                ans = conn.getresponse()
+
+                dict_data = json.loads(ans.read().decode())
+                iden = dict_data["id"]
+                dct = {"id": iden, "gene": gene_name}
+                body = read_html_file("medium_id.html").render(changes=dct)
+            elif path == "/geneSeq":
+                gene_name = arg["gene"][0]
+                server = "rest.ensembl.org"
+                endp = f"/lookup/symbol/homo_sapiens/{gene_name}"
+                params = "?content-type=application/json"
+
+                conn = http.client.HTTPConnection(server)
+                conn.request("GET", endp + params)
+                ans = conn.getresponse()
+
         except Exception:
             self.send_response(404)
             body = Path("html/error.html").read_text()
@@ -108,6 +120,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body.encode())
         return
+
 handler = TestHandler
 
 with socketserver.TCPServer(("", port), handler) as httpd:
