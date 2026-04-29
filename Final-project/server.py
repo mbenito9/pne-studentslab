@@ -98,6 +98,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             length = chromosome["length"]
                     dct = {"number": n_chr, "len": length}
                     body = read_html_file("basic3.html").render(changes=dct)
+                elif path == "/geneLookup":
+                    gene_name = arg["gene"][0]
         except Exception:
             self.send_response(404)
             body = Path("html/error.html").read_text()
