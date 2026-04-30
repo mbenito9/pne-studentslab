@@ -88,7 +88,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     dct = {"number": n_chr, "len": length}
                     body = read_html_file("basic3.html").render(changes=dct)
 
-            elif path == "/geneLookup":
+            elif path == "/geneLookup" or path == "/geneSeq":
                 gene_name = arg["gene"][0]
                 server = "rest.ensembl.org"
                 endp = f"/lookup/symbol/homo_sapiens/{gene_name}"
@@ -101,16 +101,20 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 dict_data = json.loads(ans.read().decode())
                 iden = dict_data["id"]
                 dct = {"id": iden, "gene": gene_name}
-                body = read_html_file("medium_id.html").render(changes=dct)
-            elif path == "/geneSeq":
-                gene_name = arg["gene"][0]
-                server = "rest.ensembl.org"
-                endp = f"/lookup/symbol/homo_sapiens/{gene_name}"
-                params = "?content-type=application/json"
 
-                conn = http.client.HTTPConnection(server)
-                conn.request("GET", endp + params)
-                ans = conn.getresponse()
+                if path == "/geneLookup":
+                    body = read_html_file("medium_id.html").render(changes=dct)
+                if path == "/geneSeq":
+                    server = "rest.ensembl.org"
+                    endp = f"/sequence/id/{iden}"
+                    params = "?content-type=application/json"
+
+                    conn = http.client.HTTPConnection(server)
+                    conn.request("GET", endp + params)
+                    ans = conn.getresponse()
+                    dict_data = json.loads(ans.read().decode())
+                    dct["sequence"] = dict_data["seq"]
+                    body = read_html_file("medium_seq.html").render(changes=dct)
 
         except Exception:
             self.send_response(404)

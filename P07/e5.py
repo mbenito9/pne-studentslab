@@ -35,7 +35,6 @@ try:
         print(f"{termcolor.colored("Description", "green")}: {dict_data["desc"]}")
 
         seq = Seq(dict_data["seq"])
-
         print(seq.info())
 except ValueError:
     print("The gene entered is not in the database")
