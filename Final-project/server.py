@@ -12,10 +12,11 @@ def read_html_file(filename):
     contents = j.Template(contents)
     return contents
 
-def get_json_data(endp):
+def get_json_data(endp, add):
     server = "rest.ensembl.org"
     params = "?content-type=application/json"
-
+    if len(add) != 0:
+        params += add
     conn = http.client.HTTPConnection(server)
     conn.request("GET", endp + params)
     ans = conn.getresponse()
@@ -148,14 +149,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 chr = arg["chromo"][0]
                 st = arg["start"][0]
                 end = arg["end"][0]
-                server = "rest.ensembl.org"
-                endp = f"/overlap/region/human/{chr}:{st}-{end}"
-                params = "?content-type=application/json"
-
-                conn = http.client.HTTPConnection(server)
-                conn.request("GET", endp +  params + ";feature=gene")
-                ans = conn.getresponse()
-                lst_data = json.loads(ans.read().decode())
+                lst_data = get_json_data(f"/overlap/region/human/{chr}:{st}-{end}", ";feature=gene")
 
                 id_lst = []
                 for dict in lst_data:
@@ -166,11 +160,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 <ul>\n
                 """
                 for gene_id in id_lst:
-                    dct = get_json_data(f"/lookup/id/{gene_id}")
+                    dct = get_json_data(f"/lookup/id/{gene_id}", "")
+                    print(dct)
                     gene_name = dct["display_name"]
                     html_lst += f"<li>{gene_name}</li>\n"
                 html_lst += "</ul>"
-
+                list_genesdct = {"start": st, "end": end, "chr": chr, "gene_names": html_lst}
+                body = read_html_file("medium_list.html").render(changes=list_genesdct)
 
         except Exception:
             self.send_response(404)
