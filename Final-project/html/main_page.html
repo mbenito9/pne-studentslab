@@ -51,5 +51,36 @@
     <input type="text" name="gene">
     <input type="submit" value="SEND">
   </form>
+  <hr>
+  <form action="geneInfo" method="get">
+    6) Get information about a gene (chromosome location, length, start, end and id)
+    <br>
+    Select a human gene:
+    <input type="text" name="gene">
+    <input type="submit" value="SEND">
+  </form>
+  <hr>
+  <form action="geneCalc" method="get">
+    7) Get the length and percentage of each base of a gene
+    <br>
+    Select a human gene:
+    <input type="text" name="gene">
+    <input type="submit" value="SEND">
+  </form>
+  <hr>
+  <form action="geneList" method="get">
+    8) Get all the human genes located in a specific region
+    <br>
+    Select a human chromosome:
+    <input type="text" name="chromo">
+    <br>
+    Starting point:
+    <input type="text" name="start">
+    <br>
+    Ending point:
+    <input type="text" name="end">
+    <br>
+    <input type="submit" value="SEND">
+  </form>
 </body>
 </html>

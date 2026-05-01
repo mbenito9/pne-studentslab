@@ -12,6 +12,17 @@ def read_html_file(filename):
     contents = j.Template(contents)
     return contents
 
+def get_json_data(endp):
+    server = "rest.ensembl.org"
+    params = "?content-type=application/json"
+
+    conn = http.client.HTTPConnection(server)
+    conn.request("GET", endp + params)
+    ans = conn.getresponse()
+
+    dict_data = json.loads(ans.read().decode())
+    return dict_data
+
 port = 8080
 socketserver.TCPServer.allow_reuse_address = True
 
@@ -88,7 +99,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     dct = {"number": n_chr, "len": length}
                     body = read_html_file("basic3.html").render(changes=dct)
 
-            elif path == "/geneLookup" or path == "/geneSeq":
+            elif path == "/geneLookup" or path == "/geneSeq" or path == "/geneInfo" or path == "/geneCalc":
                 gene_name = arg["gene"][0]
                 server = "rest.ensembl.org"
                 endp = f"/lookup/symbol/homo_sapiens/{gene_name}"
@@ -104,7 +115,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
                 if path == "/geneLookup":
                     body = read_html_file("medium_id.html").render(changes=dct)
-                if path == "/geneSeq":
+                if path == "/geneSeq" or path == "/geneCalc":
                     server = "rest.ensembl.org"
                     endp = f"/sequence/id/{iden}"
                     params = "?content-type=application/json"
@@ -113,8 +124,53 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     conn.request("GET", endp + params)
                     ans = conn.getresponse()
                     dict_data = json.loads(ans.read().decode())
-                    dct["sequence"] = dict_data["seq"]
-                    body = read_html_file("medium_seq.html").render(changes=dct)
+
+                    seq = dict_data["seq"]
+                    if path == "/geneCalc":
+                        object_seq = Seq(seq)
+                        info_str = str(object_seq.info())
+                        i = info_str.index("Most")
+                        strp_info = info_str[:i]
+                        dct["info"] = strp_info
+                        body = read_html_file("medium_calc.html").render(changes=dct)
+                    if path == "/geneSeq":
+                        dct["sequence"] = seq
+                        body = read_html_file("medium_seq.html").render(changes=dct)
+
+                if path == "/geneInfo":
+                    start = dict_data["start"]
+                    end = dict_data["end"]
+                    length = int(end) - int(start)
+                    add = {"start": start, "end": end, "len": length, "chr": dict_data["seq_region_name"]}
+                    new = dct | add
+                    body = read_html_file("medium_Info.html").render(changes=new)
+            elif path == "/geneList":
+                chr = arg["chromo"][0]
+                st = arg["start"][0]
+                end = arg["end"][0]
+                server = "rest.ensembl.org"
+                endp = f"/overlap/region/human/{chr}:{st}-{end}"
+                params = "?content-type=application/json"
+
+                conn = http.client.HTTPConnection(server)
+                conn.request("GET", endp +  params + ";feature=gene")
+                ans = conn.getresponse()
+                lst_data = json.loads(ans.read().decode())
+
+                id_lst = []
+                for dict in lst_data:
+                    iden = dict["id"]
+                    id_lst.append(iden)
+
+                html_lst = """
+                <ul>\n
+                """
+                for gene_id in id_lst:
+                    dct = get_json_data(f"/lookup/id/{gene_id}")
+                    gene_name = dct["display_name"]
+                    html_lst += f"<li>{gene_name}</li>\n"
+                html_lst += "</ul>"
+
 
         except Exception:
             self.send_response(404)
