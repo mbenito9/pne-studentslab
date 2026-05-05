@@ -64,9 +64,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 if json == "1":
                     c_type = "application/json"
                     dct["names"] = name_lst
-                    body = Path("json.json").read_text()
-                    for key, value in dct.items():
-                        body[key] = value
+
                 else:
                     req_species = """
                     <ul>\n
