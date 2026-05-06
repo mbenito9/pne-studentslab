@@ -9,7 +9,12 @@
   <p>Selected chromosome: {{changes.chr}}</p>
   <p>Selected region: from {{changes.start}} to {{changes.end}}</p>
   <p>Genes found:</p>
-  {{changes.gene_names}}
+  <ul>
+  {% for gene in changes.gene_names %}
+    <li>{{gene}}</li>
+  {% endfor %}
+  </ul>
+
   <hr>
   <a href="http://127.0.0.1:8080/">Main Page</a>
 

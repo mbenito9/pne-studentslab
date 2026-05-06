@@ -26,6 +26,14 @@ def get_json_data(endp, add):
     dict_data = json.loads(ans.read().decode())
     return dict_data
 
+def get_body(file, d):
+    if "html" in file:
+        c = read_html_file(file).render(changes=d)
+        ty = "text/html"
+    elif file == "json":
+        c = json.dumps(d)
+        ty = "application/json"
+    return ty, c
 
 port = 8080
 socketserver.TCPServer.allow_reuse_address = True
@@ -36,16 +44,18 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         path = analyse_path.path
         arg = parse_qs(analyse_path.query)
         body = ""
+        c_type = ""
+        if "json" in arg.keys():
+            json_arg = arg["json"][0]
         try:
             self.send_response(200)
             if path == "/":
                 body = Path("html/main_page.html").read_text()
-
+                c_type = "text/html"
             elif path == "/listSpecies":
                 dict_data = get_json_data("/info/species", "")
                 lst_species = dict_data["species"]
                 total = 0
-                json = arg["json"][0]
 
                 if "limitval" in arg.keys():
                     limit = int(arg["limitval"][0])
@@ -60,11 +70,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     if total == limit:
                         break
 
-                dct = {"limit": limit, "total_species": len(lst_species), "names": req_species}
-                if json == "1":
-                    c_type = "application/json"
-                    dct["names"] = name_lst
+                dct = {"limit": limit, "total_species": len(lst_species)}
 
+                if json_arg == "1":
+                    c_type, body = get_body("json", dct)
                 else:
                     req_species = """
                     <ul>\n
@@ -72,8 +81,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     for name in name_lst:
                         req_species += f"<li>{name}</li>\n"
                     req_species += "</ul>"
-                    body = read_html_file("basic1.html").render(changes=dct)
-                    c_type = "text/html"
+                    dct["names"] = req_species
+                    c_type, body = get_body("basic1.html", dct)
 
             elif path == "/karyotype" or path == "/chromosomeLength":
                 specie = arg["species"][0]
@@ -88,9 +97,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     for karyo in karyo_lst:
                         total_chr += f"<li>{karyo}</li>\n"
                     total_chr += "</ul>"
-
                     dct = {"chroms": total_chr, "specie": specie}
-                    body = read_html_file("basic2.html").render(changes=dct)
+
+                    if json_arg == "1":
+                        dct["chroms"] = karyo_lst
+                        c_type, body = get_body("json", dct)
+
+                    else:
+                        c_type, body = get_body("basic2.html", dct)
 
                 elif path == "/chromosomeLength":
                     n_chr = arg["chromo"][0]
@@ -99,16 +113,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         if chromosome["name"] == n_chr:
                             length = chromosome["length"]
                     dct = {"number": n_chr, "len": length}
-                    body = read_html_file("basic3.html").render(changes=dct)
+
+                    if json_arg == "1":
+                        body = json.dumps(dct)
+                        c_type = "application/json"
+                    else:
+                        body = read_html_file("basic3.html").render(changes=dct)
+                        c_type = "text/html"
 
             elif path == "/geneLookup" or path == "/geneSeq" or path == "/geneInfo" or path == "/geneCalc":
                 gene_name = arg["gene"][0]
                 dict_data = get_json_data(f"/lookup/symbol/homo_sapiens/{gene_name}", "")
                 iden = dict_data["id"]
                 dct = {"id": iden, "gene": gene_name}
-
+                file = ""
                 if path == "/geneLookup":
-                    body = read_html_file("medium_id.html").render(changes=dct)
+                    file = "medium_id.html"
 
                 if path == "/geneSeq" or path == "/geneCalc":
                     dict_data = get_json_data(f"/sequence/id/{iden}", "")
@@ -122,19 +142,25 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         strp_info = info_str[:i]
 
                         dct["info"] = strp_info
-                        body = read_html_file("medium_calc.html").render(changes=dct)
+                        file = "medium_calc.html"
 
                     if path == "/geneSeq":
                         dct["sequence"] = seq
-                        body = read_html_file("medium_seq.html").render(changes=dct)
+                        file = "medium_seq.html"
 
                 if path == "/geneInfo":
                     start = dict_data["start"]
                     end = dict_data["end"]
                     length = int(end) - int(start)
                     add = {"start": start, "end": end, "len": length, "chr": dict_data["seq_region_name"]}
-                    new = dct | add
-                    body = read_html_file("medium_Info.html").render(changes=new)
+                    dct.update(add)
+                    file = "medium_Info.html"
+
+                if json_arg == "1":
+                    c_type, body = get_body("json", dct)
+                if json_arg != "1":
+                    c_type, body = get_body(file, dct)
+
             elif path == "/geneList":
                 chr = arg["chromo"][0]
                 st = arg["start"][0]
@@ -146,19 +172,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     iden = dict["id"]
                     id_lst.append(iden)
 
-                html_lst = """
-                <ul>\n
-                """
+                html_lst = []
                 for gene_id in id_lst:
-                    dct = get_json_data(f"/lookup/id/{gene_id}", "")
-                    if "display_name" in dct.keys():
-                        gene_name = dct["display_name"]
+                    dct_data = get_json_data(f"/lookup/id/{gene_id}", "")
+                    if "display_name" in dct_data.keys():
+                        gene_name = dct_data["display_name"]
                     else:
                         gene_name = gene_id + " (gene name not found)"
-                    html_lst += f"<li>{gene_name}</li>\n"
-                html_lst += "</ul>"
-                list_genesdct = {"start": st, "end": end, "chr": chr, "gene_names": html_lst}
-                body = read_html_file("medium_list.html").render(changes=list_genesdct)
+                    html_lst.append(gene_name)
+                print(html_lst)
+                dct = {"start": st, "end": end, "chr": chr, "gene_names": html_lst}
+                file = "medium_list.html"
+
+                if json_arg == "1":
+                    c_type, body = get_body("json", dct)
+                else:
+                    c_type, body = get_body(file, dct)
 
         except Exception:
             self.send_response(404)
