@@ -45,10 +45,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         arg = parse_qs(analyse_path.query)
         body = ""
         c_type = ""
-        if "json" in arg.keys():
-            json_arg = arg["json"][0]
+
         try:
             self.send_response(200)
+            if "json" in arg.keys():
+                json_arg = arg["json"][0]
+            if "json" not in arg.keys():
+                json_arg = 0
             if path == "/":
                 body = Path("html/main_page.html").read_text()
                 c_type = "text/html"
@@ -183,13 +186,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 print(html_lst)
                 dct = {"start": st, "end": end, "chr": chr, "gene_names": html_lst}
                 file = "medium_list.html"
-
                 if json_arg == "1":
                     c_type, body = get_body("json", dct)
-                else:
+                if json_arg != "1":
                     c_type, body = get_body(file, dct)
-
-        except Exception:
+        except KeyboardInterrupt:
             self.send_response(404)
             body = Path("html/error.html").read_text()
         self.send_header("Content-Type", c_type)
