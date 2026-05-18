@@ -35,7 +35,7 @@ def get_body(file, d):
         ty = "application/json"
     return ty, c
 
-port = 8080
+port = 8081
 socketserver.TCPServer.allow_reuse_address = True
 
 class TestHandler(http.server.BaseHTTPRequestHandler):
@@ -60,8 +60,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 lst_species = dict_data["species"]
                 total = 0
 
-                if "limitval" in arg.keys():
-                    limit = int(arg["limitval"][0])
+                if "limit" in arg.keys():
+                    limit = int(arg["limit"][0])
                 else:
                     limit = 0
 
@@ -76,6 +76,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 dct = {"limit": limit, "total_species": len(lst_species)}
 
                 if json_arg == "1":
+                    dct["names"] = name_lst
                     c_type, body = get_body("json", dct)
                 else:
                     req_species = """
@@ -183,7 +184,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     else:
                         gene_name = gene_id + " (gene name not found)"
                     html_lst.append(gene_name)
-                print(html_lst)
                 dct = {"start": st, "end": end, "chr": chr, "gene_names": html_lst}
                 file = "medium_list.html"
                 if json_arg == "1":
