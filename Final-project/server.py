@@ -27,6 +27,8 @@ def get_json_data(endp, add):
     return dict_data
 
 def get_body(file, d):
+    ty = ""
+    c = ""
     if "html" in file:
         c = read_html_file(file).render(changes=d)
         ty = "text/html"
@@ -45,7 +47,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         arg = parse_qs(analyse_path.query)
         body = ""
         c_type = ""
-
+        json_arg = ""
         if "json" in arg.keys():
             json_arg = arg["json"][0]
         if "json" not in arg.keys():
@@ -112,6 +114,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         c_type, body = get_body("basic2.html", dct)
 
                 elif path == "/chromosomeLength":
+                    length = 0
                     n_chr = arg["chromo"][0]
                     lst_region = dict_data["top_level_region"]
                     for chromosome in lst_region:
