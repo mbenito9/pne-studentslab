@@ -34,7 +34,7 @@ class Html:
         return self.endp
     def obtain_body(self):
         if self.endp == "/":
-            body = Path("html/main_page.html").read_text()
+            body = Path("jv.html").read_text()
             type = "text/html"
             return body, type
 
