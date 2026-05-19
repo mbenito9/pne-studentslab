@@ -176,8 +176,8 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 lst_data = get_json_data(f"/overlap/region/human/{chr}:{st}-{end}", ";feature=gene")
 
                 id_lst = []
-                for dict in lst_data:
-                    iden = dict["id"]
+                for gene_dict in lst_data:
+                    iden = gene_dict["id"]
                     id_lst.append(iden)
 
                 html_lst = []
