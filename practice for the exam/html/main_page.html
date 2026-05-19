@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+</head>
+<body style="background-color: lightpink">
+  <h1>BROWSING HUMAN AND VERTEBRATES GENOME</h1>
+  <h2>BASIC level services</h2>
+  <form action="listSpecies" method="get">
+    1) List of species in the database
+    <br>
+      Limit:
+    <input type="text" name="limit">
+    <input type="submit" value="SEND">
+    Do you want it in json format?
+    <input type="checkbox" name="json" value="1">
+  </form>
+  <hr>
+  <form action="karyotype" method="get">
+    2) Information about the karyotype:
+    <br>
+      Select the species:
+    <input type="text" name="species">
+    <input type="submit" value="SEND">
+    Do you want it in json format?
+    <input type="checkbox" name="json" value="1">
+    <input type="hidden" name="json" value="0">
+  </form>
+  <hr>
+  <form action="chromosomeLength" method="get">
+    3) Chromosome Length
+    <br><br>
+      Select the species:
+    <input type="text" name="species">
+    <br>
+      Select a chromosome:
+    <input type="text" name="chromo">
+    <br>
+    <input type="submit" value="SEND">
+    Do you want it in json format?
+    <input type="checkbox" name="json" value="1">
+  </form>
+  <hr>
+  <h2>MEDIUM level services (JUST FOR HUMAN SPECIES)</h2>
+  <form action="geneLookup" method="get">
+    4) Get a gene ID
+    <br>
+    Select a human gene:
+    <input type="text" name="gene">
+    <input type="submit" value="SEND">
+    Do you want it in json format?
+    <input type="checkbox" name="json" value="1">
+  </form>
+  <hr>
+  <form action="geneSeq" method="get">
+    5) Get a gene sequence
+    <br>
+    Select a human gene:
+    <input type="text" name="gene">
+    <input type="submit" value="SEND">
+    Do you want it in json format?
+    <input type="checkbox" name="json" value="1">
+  </form>
+  <hr>
+  <form action="geneInfo" method="get">
+    6) Get information about a gene (chromosome location, length, start, end and id)
+    <br>
+    Select a human gene:
+    <input type="text" name="gene">
+    <input type="submit" value="SEND">
+    Do you want it in json format?
+    <input type="checkbox" name="json" value="1">
+  </form>
+  <hr>
+  <form action="geneCalc" method="get">
+    7) Get the length and percentage of each base of a gene
+    <br>
+    Select a human gene:
+    <input type="text" name="gene">
+    <input type="submit" value="SEND">
+    Do you want it in json format?
+    <input type="checkbox" name="json" value="1">
+  </form>
+  <hr>
+  <form action="geneList" method="get">
+    8) Get all the human genes located in a specific region
+    <br>
+    Select a human chromosome:
+    <input type="text" name="chromo">
+    <br>
+    Starting point:
+    <input type="text" name="start">
+    <br>
+    Ending point:
+    <input type="text" name="end">
+    <br>
+    <input type="submit" value="SEND">
+    Do you want it in json format?
+    <input type="checkbox" name="json" value="1">
+    <input type="hidden" name="json" value="0">
+  </form>
+</body>
+</html>
